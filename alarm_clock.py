@@ -9,7 +9,7 @@ from threading import *
 root = Tk()
 
 # Set geometry
-root.geometry("400x200")
+root.geometry("400x300")
 
 # Use Threading
 def Threading():
@@ -44,6 +44,10 @@ def alarm():
 			print("Time to Wake up")
 			# Playing sound
 			winsound.PlaySound("sound.wav",winsound.SND_ASYNC)
+
+def stop_alarm():
+    winsound.PlaySound(None, winsound.SND_PURGE)  # 알람 소리 멈춤
+    print("알람이 종료되었습니다.")
 
 # Add Labels, Frame, Button, Optionmenus
 Label(root,text="Alarm Clock",font=("Helvetica 20 bold"),fg="red").pack(pady=10)
@@ -91,6 +95,7 @@ secs = OptionMenu(frame, second, *seconds)
 secs.pack(side=LEFT)
 
 Button(root,text="Set Alarm",font=("Helvetica 15"),command=Threading).pack(pady=20)
+Button(root, text="Stop Alarm", font=("Helvetica 15"), command=stop_alarm).pack(pady=10)
 
 # Execute Tkinter
 root.mainloop()
