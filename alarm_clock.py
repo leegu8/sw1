@@ -3,6 +3,7 @@ from tkinter import *
 import datetime
 import time
 import winsound
+import os
 from threading import *
 
 # Create Object
@@ -25,25 +26,20 @@ def validate_time():
     alarm_time = datetime.datetime.now().replace(hour=int(hour.get()), minute=int(minute.get()), second=int(second.get()))
     return alarm_time > datetime.datetime.now()
 
-
 def alarm():
-	# Infinite Loop
-	while True:
-		# Set Alarm
-		set_alarm_time = f"{hour.get()}:{minute.get()}:{second.get()}"
+    while True:
+        set_alarm_time = f"{hour.get()}:{minute.get()}:{second.get()}"
+        time.sleep(1)
+        current_time = datetime.datetime.now().strftime("%H:%M:%S")
+        print(current_time, set_alarm_time)
 
-		# Wait for one seconds
-		time.sleep(1)
-
-		# Get current time
-		current_time = datetime.datetime.now().strftime("%H:%M:%S")
-		print(current_time,set_alarm_time)
-
-		# Check whether set alarm is equal to current time or not
-		if current_time == set_alarm_time:
-			print("Time to Wake up")
-			# Playing sound
-			winsound.PlaySound("sound.wav",winsound.SND_ASYNC)
+        if current_time == set_alarm_time:
+            if os.path.exists("sound.wav"):
+                print("Time to Wake up")
+                winsound.PlaySound("sound.wav", winsound.SND_ASYNC)
+            else:
+                print("sound.wav 파일이 없습니다.")
+            break
 
 def stop_alarm():
     winsound.PlaySound(None, winsound.SND_PURGE)  # 알람 소리 멈춤
